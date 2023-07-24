@@ -2,10 +2,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
-import { useParams } from "react-router-dom";
 
 //internal file
-import Objlink from "./backend";
 import RecipiesList from "./RecipiesList";
 
 //css file
@@ -15,12 +13,12 @@ function RecipieMain() {
     let [data_arr, setdata] = useState([]);
     let { register, handleSubmit } = useForm();
     async function get_data() {
-        let { data } = await axios.get(Objlink.baseUrl);
+        let { data } = await axios.get(process.env.REACT_APP_BASEURL);
         setdata(data);
     }
-    async function Onsubmit({ id, name, ingredients }) {
+    async function Onsubmit({  name, ingredients }) {
         let arr = ingredients.split(',');
-        await axios.post(`${Objlink.baseUrl}`, { 'id': id, 'name': name, 'ingredients': arr })
+        await axios.post(`${process.env.REACT_APP_BASEURL}`, {'name': name, 'ingredients': arr })
         get_data();
     }
     useEffect(() => {
@@ -30,8 +28,8 @@ function RecipieMain() {
         <div className="form">
             <form action="#" className="addRecipe" onSubmit={handleSubmit(Onsubmit)}>
                 <h1>Add Recipe</h1>
-                <input type="text" placeholder="ID" {...register('id')} />
-                <br />
+                {/* <input type="text" placeholder="ID" {...register('id')} />
+                <br /> */}
                 <input type="text" placeholder="enter recipe name"{...register('name')} />
                 <br />
                 <input type="text" placeholder="enter ingredients"{...register('ingredients')} />

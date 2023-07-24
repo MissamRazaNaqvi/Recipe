@@ -5,7 +5,6 @@ import axios from "axios";
 
 //internal files
 import IngredientList from "./IngredientList";
-import Objlink from "./backend";
 import { useNavigate } from "react-router-dom";
 
 //css file 
@@ -35,7 +34,7 @@ function RecipiesList(props) {
         }
     }
     async function DeleteRecipe(id) {
-        axios.delete(`${Objlink.baseUrl}/${id}`)
+        axios.delete(`${process.env.REACT_APP_BASEURL}/${id}`)
         navigate('/');
     }
     async function UpdateRecipe(id) {

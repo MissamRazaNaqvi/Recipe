@@ -5,9 +5,6 @@ import axios from "axios";
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from "react-router-dom";
 
-//server file url
-import Objlink from "./backend";
-
 function EditIngredient() {
     let { register, handleSubmit, setValue } = useForm();
     let { id, index } = useParams();
@@ -15,7 +12,7 @@ function EditIngredient() {
     let navigate = useNavigate();
     let data_store = null
     async function update_single_ingredient() {
-        let { data } = await axios.get(`${Objlink.baseUrl}/${id}`)
+        let { data } = await axios.get(`${process.env.REACT_APP_BASEURL}/${id}`)
         data_store = data;
         setValue('recipie', data.name);
         setValue('ingredient', data.ingredients[index]);
@@ -26,7 +23,7 @@ function EditIngredient() {
     async function Onsubmit({ ingredient }) {
         data_store.ingredients.splice(index, 1);
         let arr = [...data_store.ingredients, ingredient]
-        await axios.put(`${Objlink.baseUrl}/${id}`, { "id": id, "name": data_store.name, "ingredients": arr })
+        await axios.put(`${process.env.REACT_APP_BASEURL}/${id}`, { "id": id, "name": data_store.name, "ingredients": arr })
         navigate('/')
     }
     return (
